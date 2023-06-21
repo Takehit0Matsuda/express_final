@@ -21,6 +21,22 @@ class AuthService {
         });
     });
   }
+  static login(user) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(API_URL + "/login", {
+          email: user.email,
+          password: user.password,
+        })
+        .then((res) => {
+          console.log(res);
+          resolve(res.data.user);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
 }
 
 export default AuthService;
