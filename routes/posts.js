@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const models = require("../models");
+const { format } = require('date-fns');
 const Post = models.Post_model
 
 
@@ -35,15 +36,23 @@ router.get("/posts", function(req,res) {
 
 //create data
 router.post("/posts", function(req,res) {
-    if (!req.body.title || !req.body.content){
+    if (!req.body.title || !req.body.comment){
         res.status(400)
         res.json({success: false, error: "Missing title or content"})
     }
     //create information in post's database
+    const currentDate = new Date();
+    const formattedDate = format(currentDate, 'yyyy-MM-dd');
+    if(!req.body.rate){
+        req.body.rate = 3;
+    }
     const post = new Post({
+        date: formattedDate, 
         title: req.body.title,
-        content: req.body.content,
-        author: req.user._id
+        comment: req.body.comment,
+        rate: req.body.rate,
+        reviewer_name: req.user.username,
+        reviewer_id: req.user._id
     })
     post.save()
     .then(
@@ -82,13 +91,16 @@ router.patch("/post/:post_id", async (req,res) => {
     .then(function(post){
         if (post){
             res.json({success: true})
-            if (post.author._id.toString() === req.user._id.toString() || req.user.isAdmin()){
+            if (post.reviewer_id.toString() === req.user._id.toString() || req.user.isAdmin()){
                 //edit specific information in post's database
                 if (req.body.title){
                     post.title = req.body.title
                 }
-                if (req.body.content) {
-                    post.content = req.body.content
+                if (req.body.comment) {
+                    post.comment = req.body.comment
+                }
+                if (req.body.rate) {
+                    post.rate = req.body.rate
                 }
                 post.save()
                 .then(function(post){
@@ -125,7 +137,7 @@ router.delete("/post/:post_id", function (req,res) {
     Post.findOne({_id: req.params.post_id})
     .then(function(post){
         if (post){
-            if (post.author._id.toString() === req.user._id.toString() || req.user.isAdmin()){
+            if (post.reviewer_id.toString() === req.user._id.toString() || req.user.isAdmin()){
                 //edit specific information in post's database
                 try {
                     post.delete();

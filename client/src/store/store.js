@@ -1,5 +1,5 @@
-import Vue from "vue";
-// import { createApp } from "vue";
+import { createApp } from "vue";
+import App from "../App.vue";
 import Vuex from "vuex";
 import AuthService from "@/services/auth";
 
@@ -9,7 +9,8 @@ const initialState =
     ? { loggedIn: true, token: token }
     : { loggedIn: false, token: null };
 
-Vue.use(Vuex);
+const app = createApp(App);
+app.use(Vuex);
 
 export const store = new Vuex.Store({
   state: initialState,
@@ -17,9 +18,10 @@ export const store = new Vuex.Store({
     login({ commit }, user) {
       return AuthService.login(user)
         .then((token) => {
-          console.log("Got token from service: " + token);
-          localStorage.setItem("jwt_token", token);
-          commit("login", token);
+          const tokenValue = JSON.stringify(token);
+          console.log("Got token from service: " + tokenValue);
+          localStorage.setItem("jwt_token", tokenValue);
+          commit("login", tokenValue);
           return Promise.resolve();
         })
         .catch((err) => {
@@ -28,11 +30,19 @@ export const store = new Vuex.Store({
           return Promise.reject(err);
         });
     },
+    logout({ commit }) {
+      localStorage.removeItem("jwt_token");
+      commit("logout");
+    },
   },
   mutations: {
     login(state, token) {
       state.loggedIn = true;
       state.token = token;
+    },
+    logout(state) {
+      state.loggedIn = false;
+      state.token = null;
     },
   },
   getters: {

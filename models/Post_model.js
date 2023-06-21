@@ -1,30 +1,30 @@
 const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
+    date : {
+        type : Date,
+        required : true,
+    },
     title : {
         type : String,
         required : true,
         trim : true, //delete blank
     },
-    content: {
-        date : {
-            type : String,
-            required : true,
-        },
-        
-        comment : {
-            type : String
-    
-        },
-        status : {
-            type : Number
-    
-        }
+    comment : {
+        type : String,
+        required : true,
     },
-    author : {
+    rate : {
+        type : Number,
+    },
+    reviewer_name : {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User_model"
-    }    
+    },
+    reviewer_id : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User_model"
+    }       
 });
 
 // "title": "TEST POST",

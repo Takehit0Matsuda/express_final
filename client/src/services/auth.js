@@ -30,7 +30,7 @@ class AuthService {
         })
         .then((res) => {
           console.log(res);
-          resolve(res.data.user);
+          resolve(res.data.token);
         })
         .catch((err) => {
           reject(err);
