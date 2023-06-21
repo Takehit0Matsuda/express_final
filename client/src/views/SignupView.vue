@@ -11,7 +11,7 @@
         <form name="signUpForm" @submit.prevent="handleSignup">
           <div class="form_row">
             <label for="username">Username</label>
-            <input type="text" name="username" />
+            <input type="text" name="username" v-model="username" />
           </div>
           <div class="form_row">
             <label for="email">Email</label>
@@ -38,6 +38,7 @@ export default {
   data() {
     return {
       submitted: false,
+      username: "",
       message: "",
       email: "",
       password: "",
@@ -46,6 +47,7 @@ export default {
   methods: {
     handleSignup() {
       console.log("Sign Up Pressed");
+      console.log(this);
       this.submitted = true;
       if (this.email != "" && this.password != "") {
         AuthService.signup({
@@ -53,8 +55,8 @@ export default {
           email: this.email,
           password: this.password,
         })
-          .then((user) => {
-            console.log(user);
+          .then((User_model) => {
+            console.log(User_model);
             this.message = "User Created";
           })
           .catch((err) => {
