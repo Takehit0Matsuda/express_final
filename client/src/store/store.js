@@ -20,8 +20,8 @@ export const store = new Vuex.Store({
         .then((token) => {
           const tokenValue = JSON.stringify(token);
           console.log("Got token from service: " + tokenValue);
-          localStorage.setItem("jwt_token", tokenValue);
-          commit("login", tokenValue);
+          localStorage.setItem("jwt_token", token);
+          commit("login", token);
           return Promise.resolve();
         })
         .catch((err) => {

@@ -18,7 +18,7 @@ const schema = mongoose.Schema({
         type : Number,
     },
     reviewer_name : {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: "User_model"
     },
     reviewer_id : {

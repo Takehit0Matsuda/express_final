@@ -65,7 +65,7 @@ router.post("/posts", function(req,res) {
 });
 
 //get one data
-router.get("/post/:id", function(req,res) {
+router.get("/posts/:id", function(req,res) {
     Post.findOne({_id: req.params.id})
     .populate("author", "email")
     .then(function(post) {
@@ -86,7 +86,7 @@ router.get("/post/:id", function(req,res) {
 });
 
 //edit data
-router.patch("/post/:post_id", async (req,res) => {
+router.patch("/posts/:post_id", async (req,res) => {
     Post.findOne({_id: req.params.post_id})
     .then(function(post){
         if (post){
@@ -133,7 +133,7 @@ router.patch("/post/:post_id", async (req,res) => {
 });
 
 //delete data
-router.delete("/post/:post_id", function (req,res) {
+router.delete("/posts/:post_id", function (req,res) {
     Post.findOne({_id: req.params.post_id})
     .then(function(post){
         if (post){

@@ -5,8 +5,11 @@
       <li>
         <router-link to="/" class="links">Home</router-link>
       </li>
-      <li>
+      <li v-if="!$store.getters.loggedIn">
         <router-link to="about" class="links">About</router-link>
+      </li>
+      <li v-if="$store.getters.loggedIn">
+        <router-link to="reviews" class="links">Review List</router-link>
       </li>
       <li v-if="!$store.getters.loggedIn">
         <router-link to="signup" class="links">Sign Up</router-link>

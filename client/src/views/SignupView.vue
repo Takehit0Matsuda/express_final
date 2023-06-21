@@ -53,6 +53,7 @@ export default {
           .then((User_model) => {
             console.log(User_model);
             this.message = "User Created";
+            this.$router.push("/login");
           })
           .catch((err) => {
             console.log(err);
