@@ -9,6 +9,9 @@
         <router-link to="about" class="links">About</router-link>
       </li>
       <li v-if="$store.getters.loggedIn">
+        <router-link to="post_review" class="links">Post Review</router-link>
+      </li>
+      <li v-if="$store.getters.loggedIn">
         <router-link to="reviews" class="links">Review List</router-link>
       </li>
       <li v-if="!$store.getters.loggedIn">

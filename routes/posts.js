@@ -66,8 +66,8 @@ router.post("/posts", function(req,res) {
 
 //get one data
 router.get("/posts/:id", function(req,res) {
+    console.log(req.params.id)
     Post.findOne({_id: req.params.id})
-    .populate("author", "email")
     .then(function(post) {
         if(post){
             console.log(req.user)
@@ -81,7 +81,7 @@ router.get("/posts/:id", function(req,res) {
     .catch(function(err) {
         console.log(err)
         res.status(500)
-        res.json({message: "Error", error: err})
+        res.json({message: "Error", error: req.params.id})
     })
 });
 
