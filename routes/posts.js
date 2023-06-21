@@ -125,12 +125,12 @@ router.delete("/post/:post_id", function (req,res) {
     Post.findOne({_id: req.params.post_id})
     .then(function(post){
         if (post){
-            res.json({success: true})
             if (post.author._id.toString() === req.user._id.toString() || req.user.isAdmin()){
                 //edit specific information in post's database
                 try {
                     post.delete();
                     Post.save();
+                    res.json({success: true})
                 } catch (err) {
                     res.status(500).send(err);
                 }

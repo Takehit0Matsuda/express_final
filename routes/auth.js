@@ -88,6 +88,7 @@ router.patch("/user/:id", passport.authenticate("jwt", {session: false}), async(
                     user.password = req.body.new_password
                     user.email = req.body.email
                     user.save()
+                    res.json({success: true})
                 }
                 else{
                     res.status(401).send({success: false, message: "Wrong Password"})
@@ -113,6 +114,7 @@ router.delete("/user/:id", passport.authenticate("jwt", {session: false}), async
             try {
                 user.delete();
                 User.save();
+                res.json({success: true})
             } catch (err) {
                 res.status(500).send(err);
             }
